@@ -50,4 +50,45 @@ public class List {
         totalBlocks++;
     }
     
+    public void removeBlock(Block block) {
+        if (head == null) {
+            System.out.println("La lista está vacía");
+            return;
+        }
+
+        // Caso especial: el bloque a eliminar es el head
+        if (head.getId() == block.getId()) {
+            head = head.getpNext();
+            if (head == null) {
+                tail = null; // Si la lista queda vacía, tail también debe ser null
+            }
+            totalBlocks--;
+            return;
+        }
+
+        //Buscar el bloque a eliminar
+        Block aux = head;
+        Block aux2 = head;
+        while (aux != null) {
+            if (aux.getId() == block.getId()) {
+                aux2.setpNext(aux.getpNext());
+                if (aux == tail) {
+                    tail = aux2; // Si el bloque a eliminar es el tail, actualizar tail
+                }
+                totalBlocks--;
+                break;
+            }
+            aux2 = aux;
+            aux = aux.getpNext();
+        }
+    }
+    
+    //MÉTODO PARA IMPRIMIR LA LISTA DE ASIGNACIÓN
+    public void printListAllocate(){
+        Block aux = head;
+        while(aux != null){
+            System.out.println("Bloque asignado: "+aux.getId());
+            aux = aux.getpNext();
+        }
+    }
 }

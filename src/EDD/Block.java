@@ -5,7 +5,7 @@ public class Block {
     
     private int id;
     private Block pNext;
-    private Boolean isOccupied;
+    private boolean isOccupied;
 
     
     //CONSTRUCTOR DE LA CLASE BLOCK.
@@ -15,6 +15,12 @@ public class Block {
         this.isOccupied = false;
     }
 
+    //CONSTRUCTOR PARA LAS MINI LISTAS.
+    public Block(int id, boolean isOccupied) {
+        this.id = id;
+        this.pNext = null;
+        this.isOccupied = isOccupied;
+    }
     
     //METODOS GET Y SET.
     public int getId() {
