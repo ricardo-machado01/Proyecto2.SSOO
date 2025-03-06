@@ -1,40 +1,23 @@
 package GestFile;
 
-import EDD.Block;
-import EDD.List;
+import EDD.ListDirectory;
+import EDD.ListFile;
+
+
 
 public class Directory {
-
+    
     private String name;
-    private List listFile;       // Lista de archivos en el directorio
-    private List subdirectories; // Lista de subdirectorios
+    private ListFile files;
+    private ListDirectory subdirectories;
 
-    // CONSTRUCTOR.
     public Directory(String name) {
         this.name = name;
-        this.listFile = new List();       // Inicializar la lista de archivos
-        this.subdirectories = new List(); // Inicializar la lista de subdirectorios
+        this.files = new ListFile();
+        this.subdirectories = new ListDirectory();
     }
 
-    // Métodos para agregar y eliminar archivos
-    public void addFile(File file) {
-        listFile.addBlock(new Block(file.getListAllocate().getHead().getId())); // Agregar el primer bloque del archivo
-    }
-
-    public void removeFile(File file) {
-        listFile.removeBlock(new Block(file.getListAllocate().getHead().getId())); // Eliminar el primer bloque del archivo
-    }
-
-    // Métodos para agregar y eliminar subdirectorios
-    public void addSubdirectory(Directory directory) {
-        subdirectories.addBlock(new Block(directory.hashCode())); // Usar un identificador único para el directorio
-    }
-
-    public void removeSubdirectory(Directory directory) {
-        subdirectories.removeBlock(new Block(directory.hashCode())); // Eliminar el directorio
-    }
-
-    // MÉTODOS GET Y SET.
+    //MÉTODO GET Y SET.
     public String getName() {
         return name;
     }
@@ -43,19 +26,20 @@ public class Directory {
         this.name = name;
     }
 
-    public List getListFile() {
-        return listFile;
+    public ListFile getFiles() {
+        return files;
     }
 
-    public void setListFile(List listFile) {
-        this.listFile = listFile;
+    public void setFiles(ListFile files) {
+        this.files = files;
     }
 
-    public List getSubdirectories() {
+    public ListDirectory getSubdirectories() {
         return subdirectories;
     }
 
-    public void setSubdirectories(List subdirectories) {
+    public void setSubdirectories(ListDirectory subdirectories) {
         this.subdirectories = subdirectories;
-    }
+    }    
+    
 }
