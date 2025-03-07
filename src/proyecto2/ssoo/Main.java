@@ -1,5 +1,6 @@
 package proyecto2.ssoo;
 
+import GUI.Interfaz;
 import GestFile.Directory;
 import GestFile.File;
 import GestFile.FileSystemSimulator;
@@ -13,19 +14,19 @@ public class Main {
         //Creación de archivo de 3 bloques.
         simulator.createFile("file1.txt", 3);
         //Comprobamos si se crea el archivo en el directorio.
-        //System.out.println("Archivos de este directorio: "+ simulator.getCurrentDirectory().getFiles().getHead().getFile().getName());
+        System.out.println("Archivos de este directorio: "+ simulator.getCurrentDirectory().getFiles().getHead().getFile().getName());
         //Comprobamos que se marcan como ocupado los bloques del disco.
-        //System.out.println("Cantidad de bloques libres: "+ simulator.getDiskSimulator().getFreeBlocks());
+        System.out.println("Cantidad de bloques libres: "+ simulator.getDiskSimulator().getFreeBlocks());
         
         
         //Eliminar archivo de un directotio.
-        //simulator.deleteFile("file1.txt");
+        simulator.deleteFile("file1.txt");
         
         //Comprobar si libera los espacios del disco.
-        //System.out.println("Bloques de disco libres: " +simulator.getDiskSimulator().getFreeBlocks());
+        System.out.println("Bloques de disco libres: " +simulator.getDiskSimulator().getFreeBlocks());
         
         //Comprobar que se elimina el archivo del directorio.
-        //System.out.println("Lista de archivos del directorio: " + simulator.getCurrentDirectory().getFiles().getHead());
+        System.out.println("Lista de archivos del directorio: " + simulator.getCurrentDirectory().getFiles().getHead());
        
         //Comprobar que se elimina el archivo del directorio.
         simulator.getCurrentDirectory().getFiles().printListFile();
@@ -39,11 +40,12 @@ public class Main {
         simulator.listContents();*/
         //PRUEBA DE MODO USUARIO Y MODO ADMIN
     // Crear una instancia del sistema de archivos con 100 bloques de disco
-    FileSystemSimulator fs = new FileSystemSimulator(100);
+    //FileSystemSimulator fs = new FileSystemSimulator(100);
 
-    // Crear un archivo y un directorio en modo administrador
+    /* Crear un archivo y un directorio en modo administrador
     System.out.println("Modo actual: " + fs.isIsAdminMode());
     fs.createFile("file1.txt", 10); // Crear un archivo
+    System.out.println("Bloques libres: " + fs.getDiskSimulator().getFreeBlocks());
     fs.createDirectory("dir1"); // Crear un directorio
     fs.listContents(); // Listar contenido
 
@@ -56,6 +58,13 @@ public class Main {
     fs.createFile("file2.txt", 5); // Esto debería mostrar un mensaje de acceso denegado
 
     // Listar contenido en modo usuario (debe funcionar)
-    fs.listContents();
+    fs.listContents();*/
+    
+    
+    //PROBANDO INTERFAZ GRÁFICA.
+    FileSystemSimulator simulator = new FileSystemSimulator(10);
+    Interfaz interfaz = new Interfaz(simulator);
+    interfaz.setVisible(true);
+    
     }
 }
