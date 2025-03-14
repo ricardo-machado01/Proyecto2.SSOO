@@ -18,7 +18,7 @@ public class FileSystemSimulator {
     // Constructor
     public FileSystemSimulator(int totalBlocks) {
         this.diskSimulator = new DiskSimulator(totalBlocks);
-        this.rootDirectory = new Directory("root");
+        this.rootDirectory = new Directory("root",null);
         this.currentDirectory = rootDirectory; // Inicialmente, el directorio actual es el raíz
         this.isAdminMode = true; //por defecto administrador.
     }
@@ -27,6 +27,21 @@ public class FileSystemSimulator {
     public void setIsAdminMode(boolean isAdminMode) {
         this.isAdminMode = isAdminMode;
         System.out.println("Estás en modo: " + this.isAdminMode);
+    }
+    
+    //MÉTODO PARA BUSCAR A UN ARCHIVO.
+    public File findFile(String nameFile){
+        File found_file = null;
+        ListFile listfile = currentDirectory.getFiles();
+        NodeFile nodefile = listfile.getHead();
+        while(nodefile != null){
+            if(nodefile.getFile().getName().equals(nameFile)){
+                found_file = nodefile.getFile();
+                return found_file;
+            }
+            nodefile = nodefile.getPnext();
+        }
+        return null;
     }
 
     // Métodos CRUD y de gestión del sistema de archivos
@@ -115,29 +130,37 @@ public class FileSystemSimulator {
         }
 
         // Crear el directorio y agregarlo al directorio actual
-        Directory newDirectory = new Directory(dirName);
+        Directory newDirectory = new Directory(dirName,currentDirectory);
         currentDirectory.getSubdirectories().addDirectory(newDirectory);
         System.out.println("Directorio '" + dirName + "' creado exitosamente.");
-    }
+        currentDirectory = newDirectory;
+    }   
 
     
     //REVISAR
     public void deleteDirectory(String dirName) {
+        if (!isAdminMode) {
+            System.out.println("Acceso denegado: Solo el administrador puede eliminar directorios.");
+            return;
+        }
+
         ListDirectory subdirectories = currentDirectory.getSubdirectories();
         NodeDirectory aux = subdirectories.getHead();
         NodeDirectory prev = null;
 
         while (aux != null) {
             if (aux.getDirectory().getName().equals(dirName)) {
-                // Eliminar todos los archivos y subdirectorios del directorio (recursivo)
-                deleteDirectoryRecursive(aux.getDirectory());
+                Directory targetDir = aux.getDirectory(); // Guardamos el directorio a eliminar
 
-                // Eliminar el directorio de la lista
+                // 🛑 IMPORTANTE: Desvincular del padre antes de eliminar
                 if (prev == null) {
-                    subdirectories.setHead(aux.getpNext()); // El directorio a eliminar es el head
+                    subdirectories.setHead(aux.getpNext()); // Si es el primer elemento
                 } else {
-                    prev.setpNext(aux.getpNext());
+                    prev.setpNext(aux.getpNext()); // Quitar de la lista de subdirectorios
                 }
+
+                // 🔥 Llamar a la eliminación recursiva
+                deleteDirectoryRecursive(targetDir);
 
                 System.out.println("Directorio '" + dirName + "' eliminado exitosamente.");
                 return;
@@ -149,24 +172,44 @@ public class FileSystemSimulator {
         System.out.println("No se encontró el directorio: " + dirName);
     }
 
+
     //REVISAR
     private void deleteDirectoryRecursive(Directory directory) {
-        // Eliminar todos los archivos del directorio
+        // Eliminar todos los archivos del directorio y liberar bloques
         ListFile files = directory.getFiles();
-        NodeFile fileAux = files.getHead();
-        while (fileAux != null) {
-            diskSimulator.freeBlocks(fileAux.getFile().getListAllocate());
-            fileAux = fileAux.getPnext();
+        while (files.getHead() != null) {
+            diskSimulator.freeBlocks(files.getHead().getFile().getListAllocate());
+            files.setHead(files.getHead().getPnext()); // Eliminar nodo de la lista
         }
 
-        // Eliminar todos los subdirectorios del directorio (recursivo)
+        // Eliminar todos los subdirectorios del directorio de forma recursiva
         ListDirectory subdirectories = directory.getSubdirectories();
-        NodeDirectory dirAux = subdirectories.getHead();
-        while (dirAux != null) {
-            deleteDirectoryRecursive(dirAux.getDirectory());
-            dirAux = dirAux.getpNext();
+        while (subdirectories.getHead() != null) {
+            deleteDirectoryRecursive(subdirectories.getHead().getDirectory());
+            subdirectories.setHead(subdirectories.getHead().getpNext()); // Eliminar nodo de la lista
+        }
+
+        // Finalmente, desvincular el directorio de su padre
+        if (directory.getParent() != null) {
+            ListDirectory parentSubdirs = directory.getParent().getSubdirectories();
+            NodeDirectory aux = parentSubdirs.getHead();
+            NodeDirectory prev = null;
+
+            while (aux != null) {
+                if (aux.getDirectory() == directory) {
+                    if (prev == null) {
+                        parentSubdirs.setHead(aux.getpNext()); // Eliminar si es el primero
+                    } else {
+                        prev.setpNext(aux.getpNext()); // Eliminar referencia en la lista
+                    }
+                    break;
+                }
+                prev = aux;
+                aux = aux.getpNext();
+            }
         }
     }
+
 
     //MÉTODO PARA LISTAR ARCHIVOS Y DIRECTORIOS. EN EL DIRECTORIO ACTUAL.
     public void listContents() {
@@ -193,29 +236,97 @@ public class FileSystemSimulator {
 
     //Cambiar de directorio (navegación) //REVISAR
     public void changeDirectory(String dirName) {
-        if (dirName.equals("..")) {
-            // Retroceder al directorio padre (si no es el raíz)
-            if (currentDirectory != rootDirectory) {
-                // Lógica para retroceder al directorio padre (requiere implementación adicional)
-                System.out.println("Cambiando al directorio padre.");
-            } else {
-                System.out.println("Ya estás en el directorio raíz.");
+        if (dirName.equals("root")) {
+            currentDirectory = rootDirectory;
+            System.out.println("Cambiando al directorio raíz.");
+            return;
+        }
+
+        // Buscar el directorio en los subdirectorios del directorio actual
+        ListDirectory subdirectories = currentDirectory.getSubdirectories();
+        NodeDirectory aux = subdirectories.getHead();
+        while (aux != null) {
+            if (aux.getDirectory().getName().equals(dirName)) {
+                currentDirectory = aux.getDirectory();
+                System.out.println("Cambiando al directorio: " + dirName);
+                return;
             }
-        } else {
-            // Buscar el directorio en el directorio actual
-            ListDirectory subdirectories = currentDirectory.getSubdirectories();
-            NodeDirectory aux = subdirectories.getHead();
-            while (aux != null) {
-                if (aux.getDirectory().getName().equals(dirName)) {
-                    currentDirectory = aux.getDirectory();
-                    System.out.println("Cambiando al directorio: " + dirName);
-                    return;
-                }
-                aux = aux.getpNext();
-            }
-            System.out.println("No se encontró el directorio: " + dirName);
+            aux = aux.getpNext();
+        }
+
+        // Si no se encuentra en los subdirectorios, verificar si es el directorio padre
+        if (currentDirectory.getParent() != null && currentDirectory.getParent().getName().equals(dirName)) {
+            currentDirectory = currentDirectory.getParent();
+            System.out.println("Cambiando al directorio padre: " + dirName);
         }
     }
+    
+    // Método para modificar el nombre de un archivo
+    public void renameFile(String oldName, String newName) {
+    if (!isAdminMode) {
+        System.out.println("Acceso denegado: Solo el administrador puede modificar archivos.");
+        return;
+    }
+
+    ListFile files = currentDirectory.getFiles();
+    NodeFile aux = files.getHead();
+
+    // Verificar si ya existe un archivo con el nuevo nombre
+    while (aux != null) {
+        if (aux.getFile().getName().equals(newName)) {
+            System.out.println("Ya existe un archivo con el nombre: " + newName);
+            return;
+        }
+        aux = aux.getPnext();
+    }
+
+    // Buscar el archivo con el nombre antiguo y cambiar su nombre
+    aux = files.getHead();
+    while (aux != null) {
+        if (aux.getFile().getName().equals(oldName)) {
+            aux.getFile().setName(newName);
+            System.out.println("Archivo '" + oldName + "' renombrado a '" + newName + "'.");
+            return;
+        }
+        aux = aux.getPnext();
+    }
+
+    System.out.println("No se encontró el archivo: " + oldName);
+}
+
+    // Método para modificar el nombre de un directorio
+    public void renameDirectory(String oldName, String newName) {
+        if (!isAdminMode) {
+            System.out.println("Acceso denegado: Solo el administrador puede modificar directorios.");
+            return;
+        }
+
+        ListDirectory subdirectories = currentDirectory.getSubdirectories();
+        NodeDirectory aux = subdirectories.getHead();
+
+        // Verificar si ya existe un directorio con el nuevo nombre
+        while (aux != null) {
+            if (aux.getDirectory().getName().equals(newName)) {
+                System.out.println("Ya existe un directorio con el nombre: " + newName);
+                return;
+            }
+            aux = aux.getpNext();
+        }
+
+        // Buscar el directorio con el nombre antiguo y cambiar su nombre
+        aux = subdirectories.getHead();
+        while (aux != null) {
+            if (aux.getDirectory().getName().equals(oldName)) {
+                aux.getDirectory().setName(newName); // Cambiar el nombre en el sistema de archivos
+                System.out.println("Directorio '" + oldName + "' renombrado a '" + newName + "'.");
+                return;
+            }
+            aux = aux.getpNext();
+        }
+
+        System.out.println("No se encontró el directorio: " + oldName);
+    }
+
 
     //MÉTODOS GET Y SET.
     public Directory getCurrentDirectory() {
