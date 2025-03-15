@@ -356,4 +356,8 @@ public class FileSystemSimulator {
         public boolean isIsAdminMode() {
         return isAdminMode;
     }
+
+    public void setCurrentDirectory(Directory currentDirectory) {
+        this.currentDirectory = currentDirectory;
+    }
 }

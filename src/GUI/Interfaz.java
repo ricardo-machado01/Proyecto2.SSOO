@@ -95,6 +95,8 @@ public class Interfaz extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        btnChangeMode = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -167,50 +169,31 @@ public class Interfaz extends javax.swing.JFrame {
         ));
         jScrollPane2.setViewportView(jTable1);
 
+        btnChangeMode.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnChangeMode.setText("Cambio de modo");
+        btnChangeMode.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnChangeModeActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
+        jLabel2.setText("Estás en modo: Administrador");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
                 .addGap(19, 19, 19)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnModificar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnDelete)))
+                        .addComponent(btnDelete))
+                    .addComponent(jLabel2))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(24, 24, 24)
-                        .addComponent(nameFile, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel3)
-                                .addContainerGap(155, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addComponent(sizeFile, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(26, 26, 26)
-                                .addComponent(btnCreateFile)
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(29, 29, 29)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(nameDirectory, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(btnCreateDirectory))
-                                    .addComponent(jLabel4)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(38, 38, 38)
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addGap(153, 153, 153)
                         .addComponent(jLabel5)
@@ -218,66 +201,103 @@ public class Interfaz extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(46, 46, 46))))
+                        .addGap(73, 73, 73))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(24, 24, 24)
+                                .addComponent(nameFile, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(sizeFile, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(26, 26, 26)
+                                .addComponent(btnCreateFile))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(29, 29, 29)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel4)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGap(9, 9, 9)
+                                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(jLabel3))
+                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                                .addComponent(nameDirectory, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(btnCreateDirectory)))
+                                        .addGap(18, 18, 18)
+                                        .addComponent(btnChangeMode)))))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(24, 24, 24)
+                .addComponent(jLabel5)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addGap(45, 45, 45)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel1)
-                                    .addComponent(jLabel3))
-                                .addGap(0, 43, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(nameFile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(sizeFile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnCreateFile))))
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(nameDirectory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnCreateDirectory))
-                        .addGap(38, 38, 38)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(173, 173, 173))
+                        .addGap(45, 45, 45)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnModificar)
-                            .addComponent(btnDelete))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(nameFile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnCreateFile)
+                            .addComponent(sizeFile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(nameDirectory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCreateDirectory)
+                    .addComponent(btnChangeMode))
+                .addGap(34, 34, 34)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(177, 177, 177))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(29, 29, 29)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnModificar)
+                    .addComponent(btnDelete))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCreateFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateFileActionPerformed
-        if(nodeCurrent != null){
-            String name_File = this.nameFile.getText();
-            int size = Integer.parseInt(this.sizeFile.getText());
-            fileSystem.createFile(name_File, size);
-            DefaultMutableTreeNode n = new DefaultMutableTreeNode(name_File );
-            n.setAllowsChildren(false);
-            model.insertNodeInto(n, nodeCurrent, nodeCurrent.getChildCount());
-            System.out.println(fileSystem.getDiskSimulator().getFreeBlocks());
-            this.nameFile.setText("");
-            this.sizeFile.setText("");
-            File found_file = fileSystem.findFile(name_File);
-            if(found_file != null){
-                ml.addRow(new Object[] {found_file.getName(),found_file.getListAllocate().getHead().getId(),found_file.getSize()});
-            }
+        if(fileSystem.isIsAdminMode()){
+            if(nodeCurrent != null){
+                String name_File = this.nameFile.getText();
+                int size = Integer.parseInt(this.sizeFile.getText());
+                fileSystem.createFile(name_File, size);
+                DefaultMutableTreeNode n = new DefaultMutableTreeNode(name_File );
+                n.setAllowsChildren(false);
+                model.insertNodeInto(n, nodeCurrent, nodeCurrent.getChildCount());
+                System.out.println(fileSystem.getDiskSimulator().getFreeBlocks());
+                this.nameFile.setText("");
+                this.sizeFile.setText("");
+                File found_file = fileSystem.findFile(name_File);
+                if(found_file != null){
+                    ml.addRow(new Object[] {found_file.getName(),found_file.getListAllocate().getHead().getId(),found_file.getSize()});
+                }
+            }else{
+            JOptionPane.showMessageDialog(rootPane, "¡Tienes que seleccionar la carpeta!");
+            }        
         }else{
-        JOptionPane.showMessageDialog(rootPane, "¡Tienes que seleccionar la carpeta!");
+            JOptionPane.showMessageDialog(rootPane, "Acceso denegado: estás en modo usuario");
         }
     }//GEN-LAST:event_btnCreateFileActionPerformed
 
@@ -298,23 +318,28 @@ public class Interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_ArbolValueChanged
 
     private void btnCreateDirectoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateDirectoryActionPerformed
-        if(nodeCurrent != null){
-            String nameDir = this.nameDirectory.getText();
-            fileSystem.createDirectory(nameDir);
-            System.out.println("EL DIRECTORIO PADRE ES " + fileSystem.getCurrentDirectory().getParent().getName());
-            System.out.println("EL DIRECTORIO ACTUAL ES: " + fileSystem.getCurrentDirectory().getName());
-            DefaultMutableTreeNode n = new DefaultMutableTreeNode(nameDir);
-            n.setAllowsChildren(true);
-            model.insertNodeInto(n, nodeCurrent, nodeCurrent.getChildCount());
-            this.nameDirectory.setText("");
-            System.out.println(fileSystem.getDiskSimulator().getFreeBlocks());
+        if(fileSystem.isIsAdminMode()){
+            if(nodeCurrent != null){
+                String nameDir = this.nameDirectory.getText();
+                fileSystem.createDirectory(nameDir);
+                System.out.println("EL DIRECTORIO PADRE ES " + fileSystem.getCurrentDirectory().getParent().getName());
+                System.out.println("EL DIRECTORIO ACTUAL ES: " + fileSystem.getCurrentDirectory().getName());
+                DefaultMutableTreeNode n = new DefaultMutableTreeNode(nameDir);
+                n.setAllowsChildren(true);
+                model.insertNodeInto(n, nodeCurrent, nodeCurrent.getChildCount());
+                this.nameDirectory.setText("");
+                System.out.println(fileSystem.getDiskSimulator().getFreeBlocks());
+            }else{
+                JOptionPane.showMessageDialog(rootPane, "¡Tienes que seleccionar su directorio padre!");
+            }            
         }else{
-            JOptionPane.showMessageDialog(rootPane, "¡Tienes que seleccionar su directorio padre!");
+            JOptionPane.showMessageDialog(rootPane, "Acceso denegado: estás en modo usuario");
         }
     }//GEN-LAST:event_btnCreateDirectoryActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
-                if (nodeCurrent != null) {
+        if(fileSystem.isIsAdminMode()){
+            if (nodeCurrent != null) {
             String oldName = nodeCurrent.getUserObject().toString();
             String newName = JOptionPane.showInputDialog(this, "Ingrese el nuevo nombre:", "Modificar nombre", JOptionPane.PLAIN_MESSAGE);
 
@@ -324,63 +349,84 @@ public class Interfaz extends javax.swing.JFrame {
                     fileSystem.renameDirectory(oldName, newName);
                     nodeCurrent.setUserObject(newName); // Actualizar el nombre en el árbol
                     model.reload(nodeCurrent); // Refrescar el árbol
-                } else {
+                }else{
                     // Es un archivo
                     fileSystem.renameFile(oldName, newName);
                     nodeCurrent.setUserObject(newName); // Actualizar el nombre en el árbol
                     model.reload(nodeCurrent); // Refrescar el árbol
+                    }
+                }else{
+                    JOptionPane.showMessageDialog(this, "El nombre no puede estar vacío.", "Error", JOptionPane.ERROR_MESSAGE);
                 }
-            } else {
-                JOptionPane.showMessageDialog(this, "El nombre no puede estar vacío.", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        } else {
-            JOptionPane.showMessageDialog(this, "Seleccione un archivo o directorio para modificar.", "Error", JOptionPane.ERROR_MESSAGE);
+            }else {
+                JOptionPane.showMessageDialog(this, "Seleccione un archivo o directorio para modificar.", "Error", JOptionPane.ERROR_MESSAGE);
+            }        
+        }else{
+            JOptionPane.showMessageDialog(rootPane, "Acceso denegado: estás en modo usuario");
         }
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        if (nodeCurrent != null) {
-            String name = nodeCurrent.getUserObject().toString();
-            int confirm = JOptionPane.showConfirmDialog(this, 
-                "¿Está seguro de que desea eliminar '" + name + "'?", 
-                "Confirmar eliminación", 
-                JOptionPane.YES_NO_OPTION);
+        if(fileSystem.isIsAdminMode()){
+            if (nodeCurrent != null) {
+                String name = nodeCurrent.getUserObject().toString();
+                int confirm = JOptionPane.showConfirmDialog(this, 
+                    "¿Está seguro de que desea eliminar '" + name + "'?", 
+                    "Confirmar eliminación", 
+                    JOptionPane.YES_NO_OPTION);
 
-            if (confirm == JOptionPane.YES_OPTION) {
-                if (nodeCurrent.getAllowsChildren()) {
-                    // Es un directorio
-                    fileSystem.deleteDirectory(name);
-                    model.removeNodeFromParent(nodeCurrent); // Eliminar el nodo del árbol
-                    System.out.println("Directorio eliminado: " + name);
-                } else {
-                    // Es un archivo
-                    fileSystem.deleteFile(name);
-                    model.removeNodeFromParent(nodeCurrent); // Eliminar el nodo del árbol
-                    System.out.println("Archivo eliminado: " + name);
-                    
-                    DefaultTableModel tablemodel = (DefaultTableModel) jTable1.getModel();
-                    for (int i = 0; i < tablemodel.getRowCount(); i++) {
-                        if(tablemodel.getValueAt(i, 0).equals(name)){
-                            tablemodel.removeRow(i);
-                            break;
+                if (confirm == JOptionPane.YES_OPTION) {
+                    if (nodeCurrent.getAllowsChildren()) {
+                        // Es un directorio
+                        fileSystem.deleteDirectory(name);
+                        model.removeNodeFromParent(nodeCurrent); // Eliminar el nodo del árbol
+                        System.out.println("Directorio eliminado: " + name);
+                    } else {
+                        // Es un archivo
+                        fileSystem.deleteFile(name);
+                        model.removeNodeFromParent(nodeCurrent); // Eliminar el nodo del árbol
+                        System.out.println("Archivo eliminado: " + name);
+
+                        DefaultTableModel tablemodel = (DefaultTableModel) jTable1.getModel();
+                        for (int i = 0; i < tablemodel.getRowCount(); i++) {
+                            if(tablemodel.getValueAt(i, 0).equals(name)){
+                                tablemodel.removeRow(i);
+                                break;
+                            }
                         }
+
                     }
-                    
                 }
-            }
-        } else {
-            JOptionPane.showMessageDialog(this, "Seleccione un archivo o directorio para eliminar.", "Error", JOptionPane.ERROR_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this, "Seleccione un archivo o directorio para eliminar.", "Error", JOptionPane.ERROR_MESSAGE);
+            }        
+        }else{
+            JOptionPane.showMessageDialog(rootPane, "Acceso denegado: estás en modo usuario");
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void btnChangeModeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChangeModeActionPerformed
+        if(fileSystem.isIsAdminMode()){
+            fileSystem.setIsAdminMode(false);
+            String output = "Estás en modo Usuario";
+            jLabel2.setText(output);
+        }else{
+            fileSystem.setIsAdminMode(true);
+            String output = "Estás en modo Administrador";
+            jLabel2.setText(output);
+        }
+    }//GEN-LAST:event_btnChangeModeActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTree Arbol;
+    private javax.swing.JButton btnChangeMode;
     private javax.swing.JButton btnCreateDirectory;
     private javax.swing.JButton btnCreateFile;
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnModificar;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
