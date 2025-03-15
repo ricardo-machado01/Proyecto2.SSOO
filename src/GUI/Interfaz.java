@@ -247,8 +247,8 @@ public class Interfaz extends javax.swing.JFrame {
                             .addComponent(nameDirectory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnCreateDirectory))
                         .addGap(38, 38, 38)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(213, 213, 213))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(173, 173, 173))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
@@ -272,6 +272,10 @@ public class Interfaz extends javax.swing.JFrame {
             System.out.println(fileSystem.getDiskSimulator().getFreeBlocks());
             this.nameFile.setText("");
             this.sizeFile.setText("");
+            File found_file = fileSystem.findFile(name_File);
+            if(found_file != null){
+                ml.addRow(new Object[] {found_file.getName(),found_file.getListAllocate().getHead().getId(),found_file.getSize()});
+            }
         }else{
         JOptionPane.showMessageDialog(rootPane, "¡Tienes que seleccionar la carpeta!");
         }
@@ -280,7 +284,6 @@ public class Interfaz extends javax.swing.JFrame {
     private void ArbolValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_ArbolValueChanged
         nodeCurrent = (DefaultMutableTreeNode) Arbol.getLastSelectedPathComponent();
         if (nodeCurrent != null) {
-            ml.setRowCount(0); // Esto elimina todas las filas de la tabla
             String nodeName = nodeCurrent.getUserObject().toString();
             if (nodeName.equals("root")) {
                 fileSystem.changeDirectory("root");
@@ -290,10 +293,6 @@ public class Interfaz extends javax.swing.JFrame {
                 fileSystem.listContents();
             } else {
                 System.out.println("El nodo seleccionado es un archivo.");
-                File found_file = fileSystem.findFile(nodeName);
-                if(found_file != null){
-                    ml.addRow(new Object[] {found_file.getName(),found_file.getListAllocate().getHead().getId(),found_file.getSize()});
-                }
             }
         }
     }//GEN-LAST:event_ArbolValueChanged
@@ -358,6 +357,14 @@ public class Interfaz extends javax.swing.JFrame {
                     fileSystem.deleteFile(name);
                     model.removeNodeFromParent(nodeCurrent); // Eliminar el nodo del árbol
                     System.out.println("Archivo eliminado: " + name);
+                    
+                    DefaultTableModel tablemodel = (DefaultTableModel) jTable1.getModel();
+                    for (int i = 0; i < tablemodel.getRowCount(); i++) {
+                        if(tablemodel.getValueAt(i, 0).equals(name)){
+                            tablemodel.removeRow(i);
+                            break;
+                        }
+                    }
                     
                 }
             }

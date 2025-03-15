@@ -234,7 +234,7 @@ public class FileSystemSimulator {
         }
     }
 
-    //Cambiar de directorio (navegación) //REVISAR
+    //MÉTODO PARA CAMBIAR DE DIRECTORIO. (NAVEGACIÓN)
     public void changeDirectory(String dirName) {
         if (dirName.equals("root")) {
             currentDirectory = rootDirectory;
@@ -261,7 +261,7 @@ public class FileSystemSimulator {
         }
     }
     
-    // Método para modificar el nombre de un archivo
+    //MÉTODO PARA RENOMBRAR UN ARCHIVO.
     public void renameFile(String oldName, String newName) {
     if (!isAdminMode) {
         System.out.println("Acceso denegado: Solo el administrador puede modificar archivos.");
@@ -300,7 +300,7 @@ public class FileSystemSimulator {
             System.out.println("Acceso denegado: Solo el administrador puede modificar directorios.");
             return;
         }
-
+        
         ListDirectory subdirectories = currentDirectory.getSubdirectories();
         NodeDirectory aux = subdirectories.getHead();
 
