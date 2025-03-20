@@ -59,7 +59,7 @@ public class Interfaz extends javax.swing.JFrame {
     public Interfaz(FileSystemSimulator fileSystem) {
         initComponents();
         this.ml = new DefaultTableModel();
-        String ids [] = {"Nombre Archivo","Bloque inicial","Cantidad de Bloque"};
+        String ids [] = {"Nombre Archivo","Bloque inicial","Cantidad de Bloque","Lista Asignación   "};
         ml.setColumnIdentifiers(ids);
         jTable1.setModel(ml);
         this.setLocationRelativeTo(null);
@@ -161,10 +161,10 @@ public class Interfaz extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null}
+                {null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3"
+                "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
         jScrollPane2.setViewportView(jTable1);
@@ -195,14 +195,6 @@ public class Interfaz extends javax.swing.JFrame {
                     .addComponent(jLabel2))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(153, 153, 153)
-                        .addComponent(jLabel5)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(73, 73, 73))
-                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(24, 24, 24)
@@ -228,7 +220,16 @@ public class Interfaz extends javax.swing.JFrame {
                                                 .addComponent(btnCreateDirectory)))
                                         .addGap(18, 18, 18)
                                         .addComponent(btnChangeMode)))))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(153, 153, 153)
+                                .addComponent(jLabel5))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(42, 42, 42)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE))))
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
@@ -259,9 +260,9 @@ public class Interfaz extends javax.swing.JFrame {
                     .addComponent(nameDirectory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnCreateDirectory)
                     .addComponent(btnChangeMode))
-                .addGap(34, 34, 34)
+                .addGap(37, 37, 37)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(177, 177, 177))
+                .addGap(174, 174, 174))
             .addGroup(layout.createSequentialGroup()
                 .addGap(29, 29, 29)
                 .addComponent(jLabel2)
@@ -289,9 +290,19 @@ public class Interfaz extends javax.swing.JFrame {
                 System.out.println(fileSystem.getDiskSimulator().getFreeBlocks());
                 this.nameFile.setText("");
                 this.sizeFile.setText("");
+                
                 File found_file = fileSystem.findFile(name_File);
                 if(found_file != null){
-                    ml.addRow(new Object[] {found_file.getName(),found_file.getListAllocate().getHead().getId(),found_file.getSize()});
+                    StringBuilder listaAsignacion = new StringBuilder(); 
+                    BlockDisk block = found_file.getListAllocate().getHead();
+                    while(block != null){
+                        listaAsignacion.append(block.getId());
+                        if(block.getpNext() != null){
+                            listaAsignacion.append("->");
+                        }
+                        block = block.getpNext();
+                    }
+                    ml.addRow(new Object[] {found_file.getName(),found_file.getListAllocate().getHead().getId(),found_file.getSize(),listaAsignacion.toString()});
                 }
             }else{
             JOptionPane.showMessageDialog(rootPane, "¡Tienes que seleccionar la carpeta!");

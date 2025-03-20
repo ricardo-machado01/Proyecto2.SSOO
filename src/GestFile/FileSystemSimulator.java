@@ -152,14 +152,16 @@ public class FileSystemSimulator {
             if (aux.getDirectory().getName().equals(dirName)) {
                 Directory targetDir = aux.getDirectory(); // Guardamos el directorio a eliminar
 
-                // 🛑 IMPORTANTE: Desvincular del padre antes de eliminar
+                System.out.println("Eliminando directorio: " + dirName);
+
+                // Desvincular el directorio de su padre
                 if (prev == null) {
                     subdirectories.setHead(aux.getpNext()); // Si es el primer elemento
                 } else {
                     prev.setpNext(aux.getpNext()); // Quitar de la lista de subdirectorios
                 }
 
-                // 🔥 Llamar a la eliminación recursiva
+                // Llamar a la eliminación recursiva
                 deleteDirectoryRecursive(targetDir);
 
                 System.out.println("Directorio '" + dirName + "' eliminado exitosamente.");
@@ -172,21 +174,28 @@ public class FileSystemSimulator {
         System.out.println("No se encontró el directorio: " + dirName);
     }
 
-
     //REVISAR
     private void deleteDirectoryRecursive(Directory directory) {
         // Eliminar todos los archivos del directorio y liberar bloques
         ListFile files = directory.getFiles();
-        while (files.getHead() != null) {
-            diskSimulator.freeBlocks(files.getHead().getFile().getListAllocate());
-            files.setHead(files.getHead().getPnext()); // Eliminar nodo de la lista
+        NodeFile currentFileNode = files.getHead();
+
+        while (currentFileNode != null) {
+            File file = currentFileNode.getFile();
+            System.out.println("Eliminando archivo: " + file.getName());
+            diskSimulator.freeBlocks(file.getListAllocate()); // Liberar bloques del archivo
+            currentFileNode = currentFileNode.getPnext(); // Avanzar al siguiente archivo
         }
 
         // Eliminar todos los subdirectorios del directorio de forma recursiva
         ListDirectory subdirectories = directory.getSubdirectories();
-        while (subdirectories.getHead() != null) {
-            deleteDirectoryRecursive(subdirectories.getHead().getDirectory());
-            subdirectories.setHead(subdirectories.getHead().getpNext()); // Eliminar nodo de la lista
+        NodeDirectory currentSubdirNode = subdirectories.getHead();
+
+        while (currentSubdirNode != null) {
+            Directory subDir = currentSubdirNode.getDirectory();
+            System.out.println("Eliminando subdirectorio: " + subDir.getName());
+            deleteDirectoryRecursive(subDir); // Llamada recursiva para eliminar subdirectorios
+            currentSubdirNode = currentSubdirNode.getpNext(); // Avanzar al siguiente subdirectorio
         }
 
         // Finalmente, desvincular el directorio de su padre
@@ -202,6 +211,7 @@ public class FileSystemSimulator {
                     } else {
                         prev.setpNext(aux.getpNext()); // Eliminar referencia en la lista
                     }
+                    System.out.println("Desvinculando directorio: " + directory.getName());
                     break;
                 }
                 prev = aux;
