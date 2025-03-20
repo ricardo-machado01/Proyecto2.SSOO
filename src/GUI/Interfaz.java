@@ -8,6 +8,7 @@ import EDD.BlockDisk;
 import EDD.ListBlocks;
 import GestFile.File;
 import GestFile.FileSystemSimulator;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridLayout;
 import java.util.ArrayList;
@@ -16,9 +17,12 @@ import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTree;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
@@ -35,6 +39,7 @@ public class Interfaz extends javax.swing.JFrame {
     private FileSystemSimulator fileSystem;
     private DefaultMutableTreeNode nodeCurrent;
     private DefaultTableModel ml;
+    private javax.swing.JTable tablaBloques;
     
     private class FileTreeCellRenderer extends DefaultTreeCellRenderer {
     private Icon folderIcon = UIManager.getIcon("FileView.directoryIcon"); // Ícono de carpeta
@@ -58,6 +63,7 @@ public class Interfaz extends javax.swing.JFrame {
     
     public Interfaz(FileSystemSimulator fileSystem) {
         initComponents();
+        JScrollPane scrollPaneBloques = new JScrollPane(tablaBloques);
         jLabel6.setText("Bloques libres en Disco: " + fileSystem.getDiskSimulator().getFreeBlocks());
         this.ml = new DefaultTableModel();
         String ids [] = {"Nombre Archivo","Bloque inicial","Cantidad de Bloque","Lista Asignación   "};
@@ -256,11 +262,11 @@ public class Interfaz extends javax.swing.JFrame {
                 .addComponent(jLabel5)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(45, 45, 45)
+                        .addGap(27, 27, 27)
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -278,7 +284,7 @@ public class Interfaz extends javax.swing.JFrame {
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel6)
-                .addGap(140, 140, 140))
+                .addGap(33, 33, 33))
             .addGroup(layout.createSequentialGroup()
                 .addGap(29, 29, 29)
                 .addComponent(jLabel2)
@@ -288,7 +294,7 @@ public class Interfaz extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnModificar)
                     .addComponent(btnDelete))
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 21, Short.MAX_VALUE))
         );
 
         pack();
@@ -303,7 +309,6 @@ public class Interfaz extends javax.swing.JFrame {
                 DefaultMutableTreeNode n = new DefaultMutableTreeNode(name_File );
                 n.setAllowsChildren(false);
                 model.insertNodeInto(n, nodeCurrent, nodeCurrent.getChildCount());
-                System.out.println(fileSystem.getDiskSimulator().getFreeBlocks());
                 this.nameFile.setText("");
                 this.sizeFile.setText("");
                 
@@ -350,13 +355,12 @@ public class Interfaz extends javax.swing.JFrame {
             if(nodeCurrent != null){
                 String nameDir = this.nameDirectory.getText();
                 fileSystem.createDirectory(nameDir);
-                System.out.println("EL DIRECTORIO PADRE ES " + fileSystem.getCurrentDirectory().getParent().getName());
-                System.out.println("EL DIRECTORIO ACTUAL ES: " + fileSystem.getCurrentDirectory().getName());
+                System.out.println("EL DIRECTORIO PADRE ES --> " + fileSystem.getCurrentDirectory().getParent().getName());
+                System.out.println("EL DIRECTORIO ACTUAL ES --> " + fileSystem.getCurrentDirectory().getName());
                 DefaultMutableTreeNode n = new DefaultMutableTreeNode(nameDir);
                 n.setAllowsChildren(true);
                 model.insertNodeInto(n, nodeCurrent, nodeCurrent.getChildCount());
                 this.nameDirectory.setText("");
-                System.out.println(fileSystem.getDiskSimulator().getFreeBlocks());
             }else{
                 JOptionPane.showMessageDialog(rootPane, "¡Tienes que seleccionar su directorio padre!");
             }            
@@ -453,7 +457,6 @@ public class Interfaz extends javax.swing.JFrame {
             jLabel2.setText(output);
         }
     }//GEN-LAST:event_btnChangeModeActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTree Arbol;
