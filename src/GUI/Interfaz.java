@@ -58,6 +58,7 @@ public class Interfaz extends javax.swing.JFrame {
     
     public Interfaz(FileSystemSimulator fileSystem) {
         initComponents();
+        jLabel6.setText("Bloques libres en Disco: " + fileSystem.getDiskSimulator().getFreeBlocks());
         this.ml = new DefaultTableModel();
         String ids [] = {"Nombre Archivo","Bloque inicial","Cantidad de Bloque","Lista Asignación   "};
         ml.setColumnIdentifiers(ids);
@@ -68,6 +69,12 @@ public class Interfaz extends javax.swing.JFrame {
         Arbol.setModel(model);
         Arbol.setCellRenderer(new FileTreeCellRenderer());
         
+    }
+    
+    //MÉTODO PARA ACTUALIZAR LA CANTIDAD DE BLOQUES LIBRES EN GUI.
+    private void actualizarBloquesLibres() {
+    int bloquesLibres = fileSystem.getDiskSimulator().getFreeBlocks();
+    jLabel6.setText("Bloques libres en Disco: " + bloquesLibres); // Actualizar el texto del JLabel
     }
     
     /**
@@ -97,6 +104,7 @@ public class Interfaz extends javax.swing.JFrame {
         jTable1 = new javax.swing.JTable();
         btnChangeMode = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -180,6 +188,9 @@ public class Interfaz extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
         jLabel2.setText("Estás en modo: Administrador");
 
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
+        jLabel6.setText("Bloques Libres del Disco:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -194,6 +205,15 @@ public class Interfaz extends javax.swing.JFrame {
                         .addComponent(btnDelete))
                     .addComponent(jLabel2))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(153, 153, 153)
+                                .addComponent(jLabel5))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(42, 42, 42)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -219,17 +239,11 @@ public class Interfaz extends javax.swing.JFrame {
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                                 .addComponent(btnCreateDirectory)))
                                         .addGap(18, 18, 18)
-                                        .addComponent(btnChangeMode)))))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(btnChangeMode))))
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(153, 153, 153)
-                                .addComponent(jLabel5))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(42, 42, 42)
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                                .addGap(56, 56, 56)
+                                .addComponent(jLabel6)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
@@ -246,7 +260,7 @@ public class Interfaz extends javax.swing.JFrame {
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -262,7 +276,9 @@ public class Interfaz extends javax.swing.JFrame {
                     .addComponent(btnChangeMode))
                 .addGap(37, 37, 37)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(174, 174, 174))
+                .addGap(18, 18, 18)
+                .addComponent(jLabel6)
+                .addGap(140, 140, 140))
             .addGroup(layout.createSequentialGroup()
                 .addGap(29, 29, 29)
                 .addComponent(jLabel2)
@@ -304,6 +320,7 @@ public class Interfaz extends javax.swing.JFrame {
                     }
                     ml.addRow(new Object[] {found_file.getName(),found_file.getListAllocate().getHead().getId(),found_file.getSize(),listaAsignacion.toString()});
                 }
+                actualizarBloquesLibres();
             }else{
             JOptionPane.showMessageDialog(rootPane, "¡Tienes que seleccionar la carpeta!");
             }        
@@ -416,6 +433,7 @@ public class Interfaz extends javax.swing.JFrame {
 
                     }
                 }
+                    actualizarBloquesLibres();
             } else {
                 JOptionPane.showMessageDialog(this, "Seleccione un archivo o directorio para eliminar.", "Error", JOptionPane.ERROR_MESSAGE);
             }        
@@ -449,6 +467,7 @@ public class Interfaz extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
