@@ -1,8 +1,6 @@
 package proyecto2.ssoo;
 
 import GUI.Interfaz;
-import GestFile.Directory;
-import GestFile.File;
 import GestFile.FileSystemSimulator;
 
 public class Main {

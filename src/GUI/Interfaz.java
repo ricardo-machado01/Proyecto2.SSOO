@@ -354,7 +354,15 @@ public class Interfaz extends javax.swing.JFrame {
                     fileSystem.renameFile(oldName, newName);
                     nodeCurrent.setUserObject(newName); // Actualizar el nombre en el árbol
                     model.reload(nodeCurrent); // Refrescar el árbol
+                    
+                    DefaultTableModel tableModel = (DefaultTableModel) jTable1.getModel();
+                    for (int i = 0; i < tableModel.getRowCount(); i++) {
+                        if (tableModel.getValueAt(i, 0).equals(oldName)){
+                            tableModel.setValueAt(newName, i, 0);
+                            break;
+                        }
                     }
+                 }
                 }else{
                     JOptionPane.showMessageDialog(this, "El nombre no puede estar vacío.", "Error", JOptionPane.ERROR_MESSAGE);
                 }

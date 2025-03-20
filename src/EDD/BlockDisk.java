@@ -47,5 +47,4 @@ public class BlockDisk {
         this.isOccupied = isOccupied;
     }
     
-     
 }

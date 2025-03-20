@@ -43,7 +43,7 @@ public class FileSystemSimulator {
         }
         return null;
     }
-
+    
     // Métodos CRUD y de gestión del sistema de archivos
     //MÉTODO PARA CREAR UN ARCHIVO.
     public void createFile(String fileName, int size) {
@@ -317,7 +317,7 @@ public class FileSystemSimulator {
         aux = subdirectories.getHead();
         while (aux != null) {
             if (aux.getDirectory().getName().equals(oldName)) {
-                aux.getDirectory().setName(newName); // Cambiar el nombre en el sistema de archivos
+                aux.getDirectory().setName(newName); // Cambiar el nombre en el sistema de archivos               
                 System.out.println("Directorio '" + oldName + "' renombrado a '" + newName + "'.");
                 return;
             }
