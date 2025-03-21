@@ -1,29 +1,16 @@
 package proyecto2.ssoo;
 
-import EDD.List;
-
+import GUI.Interfaz;
+import GestFile.FileSystemSimulator;
 
 public class Main {
 
-
     public static void main(String[] args) {
-        // Crear un disco con 10 bloques
-        DiskSimulator disk = new DiskSimulator(10);
-
-        // Asignar 3 bloques a un archivo llamado "file1"
-        List file1Blocks = disk.allocateBlocks("file1", 10);
-        if (file1Blocks != null) {
-            System.out.println("Bloques asignados a 'file1'.");
-        }
-
-        // Verificar bloques libres antes de liberar
-        System.out.println("Bloques libres antes de liberar: " + disk.getFreeBlocks());
-        // Liberar los bloques de "file1"
-        disk.freeBlocks(file1Blocks);
-        System.out.println("Bloques de 'file1' liberados.");
-
-        // Verificar bloques libres después de liberar
-        System.out.println("Bloques libres después de liberar: " + disk.getFreeBlocks());
-    }
+        
+    //INICIALIZACIÓN DEL PROYECTO EN LA CLASE PRINCIPAL.
+    FileSystemSimulator simulator = new FileSystemSimulator(100); //SE DEFINE INICIALMENTE EL TAMAÑO DEL DISCO
+    Interfaz interfaz = new Interfaz(simulator);
+    interfaz.setVisible(true);
     
+    }
 }
